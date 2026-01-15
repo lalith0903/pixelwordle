@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>4x6 Grid with Lines</title>
+  <style>
+    :root {
+        --bg-color: #ffffff;
+        --digit-bg: #eeeeee;
+        --clock-bg: #161616;
+        --clock-border: #2e2e2e;
+        --hand-color: #e0ff55;
+        --light : white;
+    }
+
+    [data-theme="dark"] {
+        --bg-color: #121212;
+        --digit-bg: #1e1e1e;
+        --clock-bg: #222222;
+        --clock-border: #444444;
+        --hand-color: #ffeb3b;
+        --dark: black;
+    }
+    body {
+      margin: 0;
+      padding: 30px;
+      background: black;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center; /* centers horizontally */
+      align-items: center;      
+    }
+    #container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    } 
+
+    #container > div {
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    .box {
+      display: grid;
+      grid-template-columns: repeat(5, 0fr);
+      grid-template-rows: repeat(7, 0fr);
+      gap: 2px;
+      margin: 5px;
+      padding: 10px;
+      border: 2px solid white
+      /* justify-content: center; */
+    }
+
+    .dot {
+      position: relative; /* Add this line */
+      height: 8px;
+      width: 8px;
+      /* background: rgb(22, 22, 22);
+      border: 1px solid rgb(46, 46, 46); */
+      background: var(--dark);
+      border: 1px solid var(--dark);
+      ;
+      border-radius: 50%; /* Makes it a circle */
+      opacity: 0; /* Start hidden */
+      transform: translateX(-10px); /* Start off-screen to the left */
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Smooth transition */
+    }
+
+    .dot.animate {
+    opacity: 1;
+    transform: translateX(0); /* Animate to original position */
+}
+  </style>
+</head>
+<body>
+    <div id="container">
+        
+        <div id="grid-row-1"> </div>
+        <div id="grid-row-2"> </div>
+        <div id="grid-row-3"> </div>
+        <div id="grid-row-4"> </div>
+        <div id="grid-row-5"> </div>
+        <div id="grid-row-6"> </div>
+        <br>
+        <input type="text" id="word" oninput="lettersOnly(this)" maxlength="6" />
+            <button onclick="CheckAlphabelts('BEAUTY',document.getElementById('word').value.toUpperCase().split(''),1)">Submit</button>
+    </div>
+  
+
+  <script>
+    function lettersOnly(input) {
+    // Replace any character that is NOT a letter (A-Z, a-z) with an empty string
+    input.value = input.value.replace(/[^a-zA-Z]/g, '');
+  }
+    const alphabets = {
+        'A': [
+            "x","o","o","o","x",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","o","o","o","o",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","x","x","x","o"
+        ],
+        'B': [
+            "o","o","o","o","x",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","o","o","o","x",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","o","o","o","x"
+        ],
+        'C': [
+            "x","o","o","o","x",
+            "o","x","x","x","o",
+            "o","x","x","x","x",
+            "o","x","x","x","x",
+            "o","x","x","x","x",
+            "o","x","x","x","o",
+            "x","o","o","o","x"
+        ],
+        'D': [
+            "o","o","o","o","x",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","o","o","o","x"
+        ],
+        'E': [
+            "o","o","o","o","o",
+            "o","x","x","x","x",
+            "o","x","x","x","x",
+            "o","o","o","o","x",
+            "o","x","x","x","x",
+            "o","x","x","x","x",
+            "o","o","o","o","o"
+        ],
+        'F': [
+            "o","o","o","o","o",
+            "o","x","x","x","x",
+            "o","x","x","x","x",
+            "o","o","o","o","x",
+            "o","x","x","x","x",
+            "o","x","x","x","x",
+            "o","x","x","x","x"
+        ],
+        'G': [
+            "x","o","o","o","x",
+            "o","x","x","x","o",
+            "o","x","x","x","x",
+            "o","x","o","o","o",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "x","o","o","o","x"
+        ],
+        'H': [
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","o","o","o","o",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","x","x","x","o"
+        ],
+        'I': [
+            "o","o","o","o","o",
+            "x","x","o","x","x",
+            "x","x","o","x","x",
+            "x","x","o","x","x",
+            "x","x","o","x","x",
+            "x","x","o","x","x",
+            "o","o","o","o","o"
+        ],
+        'J': [
+            "o","o","o","o","o",
+            "x","x","o","x","x",
+            "x","x","o","x","x",
+            "x","x","o","x","x",
+            "x","x","o","x","x",
+            "o","x","o","x","x",
+            "x","o","x","x","x"
+        ],
+         'K': [
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","x","x","o","x",
+            "o","o","o","x","x",
+            "o","x","x","o","x",
+            "o","x","x","x","o",
+            "o","x","x","x","o"
+        ],
+         'L': [
+            "o","x","x","x","x",
+            "o","x","x","x","x",
+            "o","x","x","x","x",
+            "o","x","x","x","x",
+            "o","x","x","x","x",
+            "o","x","x","x","x",
+            "o","o","o","o","o"
+        ],
+         'M': [
+            "o","x","x","x","o",
+            "o","o","x","o","o",
+            "o","x","o","x","o",
+            "o","X","x","x","o",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","x","x","x","o"
+        ],
+        'N': [
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","o","x","x","o",
+            "o","x","o","x","o",
+            "o","x","x","o","o",
+            "o","x","x","x","o",
+            "o","x","x","x","o"
+        ],
+        'O': [
+            "x","o","o","o","x",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "x","o","o","o","x"
+        ],
+         'P': [
+            "o","o","o","o","x",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","o","o","o","x",
+            "o","x","x","x","x",
+            "o","x","x","x","x",
+            "o","x","x","x","x"
+        ],
+        'Q': [
+            "x","o","o","o","x",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","x","o","x","o",
+            "o","x","x","o","o",
+            "x","o","o","o","o"
+        ],
+        'R': [
+            "o","o","o","o","x",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","o","o","o","x",
+            "o","x","o","x","x",
+            "o","x","x","o","x",
+            "o","x","x","x","o"
+        ],
+         'S': [
+            "x","o","o","o","x",
+            "o","x","x","x","o",
+            "o","x","x","x","x",
+            "x","o","o","o","x",
+            "x","x","x","x","o",
+            "o","x","x","x","o",
+            "x","o","o","o","x"
+        ],
+        'T': [
+            "o","o","o","o","o",
+            "x","x","o","x","x",
+            "x","x","o","x","x",
+            "x","x","o","x","x",
+            "x","x","o","x","x",
+            "x","x","o","x","x",
+            "x","x","o","x","x"
+        ],
+        'U': [
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "x","o","o","o","x"
+        ],
+        'V': [
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "x","o","x","o","x",
+            "x","x","o","x","x"
+        ],
+         'W': [
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "o","X","x","x","o",
+            "o","x","o","x","o",
+            "o","o","x","o","o",
+            "o","x","x","x","o"
+        ],
+        'X': [
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "x","o","x","o","x",
+            "x","x","o","x","x",
+            "x","o","x","o","x",
+            "o","x","x","x","o",
+            "o","x","x","x","o"
+        ],
+         'Y': [
+            "o","x","x","x","o",
+            "o","x","x","x","o",
+            "x","o","x","o","x",
+            "x","x","o","x","x",
+            "x","x","o","x","x",
+            "x","x","o","x","x",
+            "x","x","o","x","x"
+        ],
+         'Z': [
+            "o","o","o","o","o",
+            "x","x","x","x","o",
+            "x","x","x","o","x",
+            "x","x","o","x","x",
+            "x","o","x","x","x",
+            "o","x","x","x","x",
+            "o","o","o","o","o"
+        ]
+    }
+    const container = document.getElementById("container");
+    for (var b = 0; b < 6; b++) {
+
+        const gridRow = document.getElementById(`grid-row-${b + 1}`);
+        // var angnum = numbers[value];
+        for (let a = 0; a < 6; a++) {
+            const digit = document.createElement("div");
+            digit.className = "box";
+            
+            // var angnum = numbers[value];
+            // Create 24 boxes (4x6 grid)
+            for (let i = 0; i < 35 ; i++) {
+                const box = document.createElement("div");
+                box.className = "dot";
+
+                digit.appendChild(box);
+
+            }
+            gridRow.appendChild(digit);
+        }
+        container.appendChild(gridRow);
+    }
+    
+    
+    
+    function updateHands(val) {
+        
+        for (let a = 0; a < 6; a++) {
+            const angnum = alphabets[val[a]];
+            const dot = box[a].querySelectorAll('.dot'); // or loop through multiple if needed
+            
+            for (let i = 0; i < 35; i++) {
+                if (angnum[i] === "o") {
+                    // Apply transformation to the dot element
+                    dot[i].style.backgroundColor = 'var(--hand-color)';
+                }
+
+            }
+            dot.forEach((box, index) => {
+                // Calculate a staggered delay for each box
+                // The delay depends on the index in the list
+                setTimeout(() => {
+                    box.classList.add('animate');
+                }, index * 50); // 50ms delay between each box
+            });
+        }
+        
+   }
+   function CheckAlphabelts(val, word, position) {
+        const gridRow = document.getElementById(`grid-row-${position}`);
+
+    const box = gridRow.querySelectorAll('.box');
+        const listletter = word.split('')
+        // console.log(listletter);
+        
+        var count = 0;
+        for (let a = 0; a < 6; a++) {
+            const angnum = alphabets[val[a]];
+            const dot = box[a].querySelectorAll('.dot'); // or loop through multiple if needed
+            const letter = listletter[a];
+            if(letter == val[a]){
+                // console.log("match");
+                count +=1;
+            }
+            for (let i = 0; i < 35; i++) {
+                if (letter == val[a]) {
+                    if (angnum[i] === "o") {
+                        // Apply transformation to the dot element
+                        dot[i].style.backgroundColor = 'blue';
+                    }
+                }
+                else if(i < position*5) {
+                    // console.log(angnum[i], alphabets[letter][i]);
+                    if(angnum[i] == alphabets[letter][i]&& angnum[i] === "o") {
+                        dot[i].style.backgroundColor = 'green';
+                    } else if ( (angnum[i] === "x" ) ) {
+                        //dot[i].style.backgroundColor = 'var(--hand-color)';
+                    }
+                    else
+                    {
+                        dot[i].style.backgroundColor = 'red';
+                    }
+                }
+                else {
+                    if (angnum[i] === "o") {
+                        // Apply transformation to the dot element
+                        dot[i].style.backgroundColor = 'var(--hand-color)';
+                    }
+                }
+                
+
+            }
+            dot.forEach((box, index) => {
+                // Calculate a staggered delay for each box
+                // The delay depends on the index in the list
+                setTimeout(() => {
+                    box.classList.add('animate');
+                }, index * 50); // 50ms delay between each box
+            });
+        }
+        console.log(count);
+        if(count == 6){
+            setTimeout(function() {
+                alert("You WIN!!!");
+            }, 2000);
+        }
+        
+   }
+   var value = "Beauty";
+    var answer = value.toUpperCase().split('');
+    //updateHands(value.toUpperCase().split(''));
+   CheckAlphabelts(answer, "BEAUTY",1) 
+  </script>
+
+</body>
+</html>
+
