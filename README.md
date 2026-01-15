@@ -25,7 +25,7 @@ pixelwordle/
 │── index.html         # Main HTML file
 │── style.css          # Game styling
 │── script.js          # Game logic
-│── assets/           # (Optional) images, icons, or fonts
+│── assets/            # (Optional) images, icons, or fonts
 │── README.md          # Project documentation
 
 
