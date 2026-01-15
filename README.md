@@ -22,10 +22,15 @@ PixelWordle is a fun, interactive word-guessing game inspired by the classic Wor
 
 ## 📂 Project Structure
 pixelwordle/
+
 │── index.html         # Main HTML file
+
 │── style.css          # Game styling
+
 │── script.js          # Game logic
+
 │── assets/            # (Optional) images, icons, or fonts
+
 │── README.md          # Project documentation
 
 
