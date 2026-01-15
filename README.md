@@ -29,8 +29,6 @@ pixelwordle/
 
 │── script.js          # Game logic
 
-│── assets/            # (Optional) images, icons, or fonts
-
 │── README.md          # Project documentation
 
 
