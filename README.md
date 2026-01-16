@@ -53,3 +53,9 @@ Simply clone the repository and open `index.html` in your browser.
 git clone https://github.com/your-username/pixelwordle.git
 cd pixelwordle
 open index.html
+
+
+## NOTE :
+The above code is in development you might encounter some problems in code.
+Please clone the project and adjust to you needs accordinly.
+Also please give a star to remember the project.
