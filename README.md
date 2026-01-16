@@ -54,7 +54,7 @@ git clone https://github.com/your-username/pixelwordle.git
 cd pixelwordle
 open index.html
 ```
---
+---
 
 ## NOTE :
 The above code is in development you might encounter some problems in code.
