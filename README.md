@@ -50,7 +50,7 @@ No installation required!
 Simply clone the repository and open `index.html` in your browser.
 
 ```bash
-git clone https://github.com/your-username/pixelwordle.git
+git clone https://github.com/lalith0903/pixelwordle.git
 cd pixelwordle
 open index.html
 ```
